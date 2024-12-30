@@ -1,6 +1,8 @@
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
-import mjml2html from 'mjml';
+import fs from 'fs';
+import path from 'path';
+import handlebars from 'handlebars';
 
 dotenv.config();
 
@@ -14,20 +16,24 @@ const transporter = nodemailer.createTransport({
 });
 
 
-export const sendEmail = async (to: string, subject: string, mjmlTemplate: string) => { 
+export const sendEmail = async (data: any, mailOptions: { to: string; subject: string; template: string; isAdmin?: boolean }) => {
   try {
+    const templateSource = fs.readFileSync(path.join(__dirname, `../templates/${mailOptions.template}`), 'utf8');
 
-    const { html } = mjml2html(mjmlTemplate); 
+    const template = handlebars.compile(templateSource);
 
-    const mailOptions = {
-      from: 'raul.may@dinotransfers.com',
-      to,
-      subject,
-      html,
+    const html = template(data); 
+
+    const options = {
+      from: mailOptions.isAdmin ? data.email : 'raul.may@dinotransfers.com',
+      to: mailOptions.to,
+      subject: mailOptions.subject,
+      html: html,
     };
 
-    // Envía el correo
-    const info = await transporter.sendMail(mailOptions);
+    console.log("from:", options.from); // Imprime el valor de from
+    console.log("to:", options.to);
+    const info = await transporter.sendMail(options);
     console.log('Correo electrónico enviado:', info.messageId);
   } catch (error) {
     console.error('Error al enviar el correo electrónico:', error);

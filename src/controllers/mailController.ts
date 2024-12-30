@@ -1,23 +1,34 @@
 import { Request, Response } from "express";
 import { sendEmail } from "../utils/mail";
-import fs from 'fs'; 
-import path from 'path';
 
 export const sendMailController = async (req: Request, res: Response) =>
 {
     try
     {
-        const { to, subject } = req.body;
+        const { email, subject, nombre, mensaje, ...formData } = req.body;
 
-        if (!to || !subject) {
+        if (!email || !subject || !nombre || !mensaje) {
             res.status(400).json({ error: 'Faltan datos obligatorios' }); 
         }
 
-        const mjmlTemplate = fs.readFileSync(path.join(__dirname, '../templates/templateTests.mjml'), 'utf8');
+        // Correo al usuario
+        await sendEmail({formData, nombre:nombre}, { 
+            to: email,
+            subject: subject,
+            template: 'templateContactClient.html',
+            isAdmin: false, 
+          });
+    
+        // Correo al administrador
+        await sendEmail({formData,nombre:nombre, mensaje:mensaje, email: email, subject:subject }, {  
+            to: 'raul.may@dinotransfers.com', 
+            subject: 'Contacto May Cloud '+ subject,
+            template: 'templateContactAdmin.html',
+            isAdmin: true, 
+          });
       
-          await sendEmail(to, subject, mjmlTemplate);
-      
-          res.status(200).json({ message: 'Correo electrónico enviado correctamente' });
+        res.status(200).json({ message: 'Correo electrónico enviado correctamente' });
+        console.log("formData:", formData);
     }
     catch (error) {
         console.error('Error al enviar el correo electrónico:', error);

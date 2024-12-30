@@ -1,0 +1,38 @@
+<mjml>
+  <mj-head>
+    <mj-preview>Nuevo mensaje de contacto</mj-preview> 
+    <mj-attributes>
+      <mj-all color="#ffffff" font-family="Arial, sans-serif"></mj-all>
+      <mj-text font-size="16px" line-height="24px"></mj-text>
+    </mj-attributes>
+  </mj-head>
+  <mj-body background-color="#111827">
+    <mj-section padding="0">
+      <mj-column width="100%">
+        <mj-image 
+          src="https://scontent.fisj1-1.fna.fbcdn.net/v/t39.30808-6/380664677_174753615657146_2652546904809390206_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=lFuhJMsa54wQ7kNvgFwF2a_&_nc_oc=Adi0PlpWGg_V71FTSiwQ-NBBtxQG9OO0aFr6juhCX8UZ9u3R4YuZEJ6UQo8KSzUe2Yxeo8lHvKMFTNLPWHmPIbnG&_nc_zt=23&_nc_ht=scontent.fisj1-1.fna&_nc_gid=Aqfyzpr_JTq_B-T_oM50IMV&oh=00_AYCbYvlbzco4DZIa4OLOLpnNJ0Lqm7yYC5II3ux-J0jWmQ&oe=67768C7C" 
+          alt="MayCloud" 
+          width="600px" 
+          height="150px" 
+          padding="20px" 
+        />
+      </mj-column>
+    </mj-section>
+    <mj-section padding-top="0">
+      <mj-column>
+        <mj-text align="center" font-size="20px" font-weight="bold">
+          {{subject}}
+        </mj-text>
+        <mj-text>
+          Nombre: {{nombre}}
+        </mj-text>
+        <mj-text>
+          Email: {{email}} 
+        </mj-text>
+        <mj-text>
+          Mensaje: {{mensaje}}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
